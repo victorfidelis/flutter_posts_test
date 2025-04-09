@@ -39,10 +39,10 @@ android {
         applicationId = "br.com.victorteste.flutter_posts_test"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
-        versionCode = flutter.versionCode
-        versionName = flutter.versionName
+        minSdk = 26
+        targetSdk = 35
+        versionCode = 100
+        versionName = "1.0.0"
     }
 
     buildTypes {
