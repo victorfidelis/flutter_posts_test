@@ -4,6 +4,7 @@ import 'package:flutter_posts_test/app/bloc/login/login_state.dart';
 import 'package:flutter_posts_test/app/repository/auth/auth_repository.dart';
 import 'package:flutter_posts_test/app/repository/user/user_repository.dart';
 import 'package:flutter_posts_test/app/shared/either/either_extensions.dart';
+import 'package:flutter_posts_test/app/shared/failure.dart/auth_failures.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   AuthRepository authRepository;
@@ -32,6 +33,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     
     final authEither = await authRepository.signInEmailPassword(email: event.email, password:  event.password);
     if (authEither.isLeft) {
+      if (authEither.left is EmailNotVerifiedFailure) {
+        await authRepository.sendEmailVerificationForCurrentUser();
+      }
+
       emit(LoginFailure(genericMessage: authEither.left!.message));
       return;
     }
