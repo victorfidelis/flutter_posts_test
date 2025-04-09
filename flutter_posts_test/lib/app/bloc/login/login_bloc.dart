@@ -19,6 +19,16 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   Future<void> _onLoginButtonPressed(
       LoginButtonPressed event, Emitter<LoginState> emit) async {
     emit(LoginLoading());
+
+    if (event.email.isEmpty) {
+      emit(LoginFailure(emailMessage: 'Email não pode ser vazio'));
+      return;
+    }
+    
+    if (event.password.isEmpty) {
+      emit(LoginFailure(passwordMessage: 'Senha não pode ser vazia'));
+      return;
+    }
     
     final authEither = await authRepository.signInEmailPassword(email: event.email, password:  event.password);
     if (authEither.isLeft) {
@@ -33,6 +43,4 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       emit(LoginSuccess(user: userEither.right!));
     }
   } 
-
-
 }

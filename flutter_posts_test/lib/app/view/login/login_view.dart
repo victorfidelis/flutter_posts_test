@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_posts_test/app/bloc/login/login_bloc.dart';
+import 'package:flutter_posts_test/app/bloc/login/login_event.dart';
 import 'package:flutter_posts_test/app/bloc/login/login_state.dart';
 import 'package:flutter_posts_test/app/shared/notifications/custom_notifications.dart';
 import 'package:flutter_posts_test/app/shared/widget/custom_loading.dart';
@@ -35,7 +36,7 @@ class _LoginViewState extends State<LoginView> {
           children: [
             SizedBox(
               height: MediaQuery.of(context).size.height / 2.8,
-              child: const Text('Login'),
+              child: Center(child: const Text('Login')),
             ),
             const SizedBox(height: 20),
             BlocBuilder<LoginBloc, LoginState>(
@@ -54,18 +55,18 @@ class _LoginViewState extends State<LoginView> {
                   });
                 }
 
-                Widget genericErrorWidget = const SizedBox(height: 18);
-                String? emailMessage;
-                String? passwordMessage;
-                String? genericMessage;
+                Widget genericErrorWidget = const SizedBox();
+                String? emailError;
+                String? passwordError;
+                String? genericError;
 
                 if (state is LoginFailure) {
-                  emailMessage = state.emailMessage;
-                  passwordMessage = state.passwordMessage;
-                  genericMessage = state.genericMessage;
-                  if (genericMessage != null) {
+                  emailError = state.emailMessage;
+                  passwordError = state.passwordMessage;
+                  genericError = state.genericMessage;
+                  if (genericError != null) {
                     genericErrorWidget = CustomTextError(
-                      message: genericMessage,
+                      message: genericError,
                     );
                   }
                 }
@@ -79,15 +80,19 @@ class _LoginViewState extends State<LoginView> {
                       CustomTextField(
                         label: 'Email',
                         controller: emailController,
+                        error: emailError,  
                       ),
                       const SizedBox(height: 18),
                       CustomTextField(
                         label: 'Senha',
                         controller: passwordController,
                         isPassword: true,
+                        error: passwordError,
                       ),
-                      const SizedBox(height: 32),
-                      ElevatedButton(onPressed: () {}, child: Text('Logar')),
+                      const SizedBox(height: 22),
+                      genericErrorWidget,
+                      const SizedBox(height: 8), 
+                      ElevatedButton(onPressed: onLoginButtonPressed, child: Text('Logar')),
                     ],
                   ),
                 );
@@ -97,5 +102,15 @@ class _LoginViewState extends State<LoginView> {
         ),
       ),
     );
+  }
+
+  void onLoginButtonPressed() {
+    final email = emailController.text;
+    final password = passwordController.text;
+
+    context.read<LoginBloc>().add(LoginButtonPressed(
+      email: email,
+      password: password,
+    ));
   }
 }
