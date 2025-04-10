@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_posts_test/app/bloc/wrapper/wrapper_bloc.dart';
 import 'package:flutter_posts_test/app/repository/auth/auth_repository.dart';
 import 'package:flutter_posts_test/app/repository/auth/firebase_auth_repository.dart';
+import 'package:flutter_posts_test/app/repository/post/dio_post_repository.dart';
+import 'package:flutter_posts_test/app/repository/post/post_repository.dart';
 import 'package:flutter_posts_test/app/repository/user/firebase_user_repository.dart';
 import 'package:flutter_posts_test/app/repository/user/user_repository.dart';
 import 'package:flutter_posts_test/app/view/routes.dart';
@@ -14,12 +16,9 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
-        RepositoryProvider<AuthRepository>(
-          create: (_) => FirebaseAuthRepository(),
-        ),
-        RepositoryProvider<UserRepository>(
-          create: (_) => FirebaseUserRepository(),
-        ),
+        RepositoryProvider<AuthRepository>(create: (_) => FirebaseAuthRepository()),
+        RepositoryProvider<UserRepository>(create: (_) => FirebaseUserRepository()),
+        RepositoryProvider<PostRepository>(create: (_) => DioPostRepository()),
       ],
       child: MultiBlocProvider(
         providers: [BlocProvider(create: (_) => WrapperBloc())],
