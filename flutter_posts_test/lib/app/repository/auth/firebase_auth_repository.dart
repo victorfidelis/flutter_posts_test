@@ -119,4 +119,24 @@ class FirebaseAuthRepository implements AuthRepository {
       }
     }
   }
+  
+  @override
+  Future<Either<Failure, Unit>> signOut() async {
+    final initializeEither = await _firebaseInitializer.initialize();
+    if (initializeEither.isLeft) {
+      return Either.left(initializeEither.left);
+    }
+
+    try {
+      final fb_auth.FirebaseAuth firebaseAuth = fb_auth.FirebaseAuth.instance;
+      await firebaseAuth.signOut();
+      return Either.right(unit);
+    } on fb_auth.FirebaseAuthException catch (e) {
+      if (e.code == 'network-request-failed') {
+        return Either.left(NetworkFailure('Sem conexão com a internet'));
+      } else {
+        return Either.left(Failure('Firestore error: ${e.message}'));
+      }
+    }
+  }
 }

@@ -17,4 +17,6 @@ abstract class AuthRepository {
   Future<Either<Failure, Unit>> sendPasswordResetEmail({
     required String email,
   });
+
+  Future<Either<Failure, Unit>> signOut();
 }

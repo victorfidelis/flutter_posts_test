@@ -7,15 +7,15 @@ import 'package:flutter_posts_test/app/shared/either/either_extensions.dart';
 import 'package:flutter_posts_test/app/shared/failure.dart/auth_failures.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  AuthRepository authRepository;
-  UserRepository userRepository;
-
   LoginBloc({
     required this.authRepository,
     required this.userRepository,
   }) : super(LoginInitial()) {
     on<LoginButtonPressed>(_onLoginButtonPressed);
   } 
+  
+  AuthRepository authRepository;
+  UserRepository userRepository;
 
   Future<void> _onLoginButtonPressed(
       LoginButtonPressed event, Emitter<LoginState> emit) async {

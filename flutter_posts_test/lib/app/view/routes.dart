@@ -1,10 +1,10 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_posts_test/app/view/login/login_view.dart';
+import 'package:flutter_posts_test/app/view/wrapper.dart';
 
 Route<dynamic>? getRoute(RouteSettings settings) {
-  if (settings.name == '/login') {
-    return _buildRoute(settings, const LoginView());
+  if (settings.name == '/wrapper') {
+    return _buildRoute(settings, const Wrapper());
   }
   return null;
 }

@@ -3,6 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_posts_test/app/bloc/login/login_bloc.dart';
 import 'package:flutter_posts_test/app/bloc/login/login_event.dart';
 import 'package:flutter_posts_test/app/bloc/login/login_state.dart';
+import 'package:flutter_posts_test/app/bloc/wrapper/wrapper_bloc.dart';
+import 'package:flutter_posts_test/app/bloc/wrapper/wrapper_event.dart';
+import 'package:flutter_posts_test/app/model/user.dart';
+import 'package:flutter_posts_test/app/repository/auth/auth_repository.dart';
+import 'package:flutter_posts_test/app/repository/user/user_repository.dart';
 import 'package:flutter_posts_test/app/shared/notifications/custom_notifications.dart';
 import 'package:flutter_posts_test/app/shared/widget/custom_loading.dart';
 import 'package:flutter_posts_test/app/shared/widget/custom_text_error.dart';
@@ -16,12 +21,23 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
+  late final LoginBloc loginBloc;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final notifications = CustomNotifications();
 
   @override
+  void initState() {
+    loginBloc = LoginBloc(
+      authRepository: context.read<AuthRepository>(),
+      userRepository: context.read<UserRepository>(),
+    );
+    super.initState();
+  }
+
+  @override
   void dispose() {
+    loginBloc.close();
     emailController.dispose();
     passwordController.dispose();
 
@@ -39,20 +55,20 @@ class _LoginViewState extends State<LoginView> {
               child: Center(child: const Text('Login')),
             ),
             const SizedBox(height: 20),
-            BlocBuilder<LoginBloc, LoginState>(
+            BlocConsumer<LoginBloc, LoginState>(
+              bloc: loginBloc,
+              listener: (context, state) {
+                if (state is LoginSuccess) {
+                  onLoginSuccess(state.user);
+                }
+              },
               builder: (context, state) {
-                if (state is LoginLoading) {
-                  return const Center(child: CustomLoading());
+                if (state is LoginSuccess) {
+                  return SizedBox();
                 }
 
-                if (state is LoginSuccess) {
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    notifications.showSnackBar(
-                      context: context,
-                      message: 'Usuário autenticado!',
-                    );
-                    //doMainView();
-                  });
+                if (state is LoginLoading) {
+                  return const Center(child: CustomLoading());
                 }
 
                 Widget genericErrorWidget = const SizedBox();
@@ -65,9 +81,7 @@ class _LoginViewState extends State<LoginView> {
                   passwordError = state.passwordMessage;
                   genericError = state.genericMessage;
                   if (genericError != null) {
-                    genericErrorWidget = CustomTextError(
-                      message: genericError,
-                    );
+                    genericErrorWidget = CustomTextError(message: genericError);
                   }
                 }
 
@@ -80,7 +94,7 @@ class _LoginViewState extends State<LoginView> {
                       CustomTextField(
                         label: 'Email',
                         controller: emailController,
-                        error: emailError,  
+                        error: emailError,
                       ),
                       const SizedBox(height: 18),
                       CustomTextField(
@@ -91,8 +105,11 @@ class _LoginViewState extends State<LoginView> {
                       ),
                       const SizedBox(height: 22),
                       genericErrorWidget,
-                      const SizedBox(height: 8), 
-                      ElevatedButton(onPressed: onLoginButtonPressed, child: Text('Logar')),
+                      const SizedBox(height: 8),
+                      ElevatedButton(
+                        onPressed: onLoginButtonPressed,
+                        child: Text('Logar'),
+                      ),
                     ],
                   ),
                 );
@@ -108,9 +125,14 @@ class _LoginViewState extends State<LoginView> {
     final email = emailController.text;
     final password = passwordController.text;
 
-    context.read<LoginBloc>().add(LoginButtonPressed(
-      email: email,
-      password: password,
-    ));
+    loginBloc.add(LoginButtonPressed(email: email, password: password));
+  }
+
+  void onLoginSuccess(User user) {
+    context.read<WrapperBloc>().add(LogIn(user));
+    notifications.showSnackBar(
+      context: context,
+      message: 'Usuário autenticado!',
+    );
   }
 }

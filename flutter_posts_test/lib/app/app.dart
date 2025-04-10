@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_posts_test/app/bloc/login/login_bloc.dart';
+import 'package:flutter_posts_test/app/bloc/wrapper/wrapper_bloc.dart';
 import 'package:flutter_posts_test/app/repository/auth/auth_repository.dart';
 import 'package:flutter_posts_test/app/repository/auth/firebase_auth_repository.dart';
 import 'package:flutter_posts_test/app/repository/user/firebase_user_repository.dart';
@@ -12,15 +12,19 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    final AuthRepository authRepository = FirebaseAuthRepository();
-    final UserRepository userRepository = FirebaseUserRepository();
-
-    return MultiBlocProvider(
+    return MultiRepositoryProvider(
       providers: [
-        BlocProvider(create: (_) => LoginBloc(authRepository: authRepository, userRepository: userRepository)),
+        RepositoryProvider<AuthRepository>(
+          create: (_) => FirebaseAuthRepository(),
+        ),
+        RepositoryProvider<UserRepository>(
+          create: (_) => FirebaseUserRepository(),
+        ),
       ],
-      child: MaterialApp(initialRoute: '/login', onGenerateRoute: getRoute),
+      child: MultiBlocProvider(
+        providers: [BlocProvider(create: (_) => WrapperBloc())],
+        child: MaterialApp(initialRoute: '/wrapper', onGenerateRoute: getRoute),
+      ),
     );
   }
 }
