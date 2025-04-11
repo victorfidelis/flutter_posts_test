@@ -20,17 +20,20 @@ class PostsView extends StatefulWidget {
 
 class _PostsViewState extends State<PostsView> {
   late final PostBloc postBloc;
+  final scrollController = ScrollController();
 
   @override
   void initState() {
     postBloc = PostBloc(postRepository: context.read<PostRepository>());
     postBloc.add(PostLoad());
+    scrollController.addListener(scrollTrigger);
     super.initState();
   }
 
   @override
   void dispose() {
     postBloc.close();
+    scrollController.dispose();
     super.dispose();
   }
 
@@ -40,12 +43,7 @@ class _PostsViewState extends State<PostsView> {
       appBar: AppBar(
         title: const Text('Posts', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20)),
         centerTitle: true,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: logout,
-          ),
-        ],
+        actions: [IconButton(icon: const Icon(Icons.logout), onPressed: logout)],
       ),
       body: BlocBuilder<PostBloc, PostState>(
         bloc: postBloc,
@@ -72,11 +70,37 @@ class _PostsViewState extends State<PostsView> {
 
   Widget buildPostsList(List<Post> posts) {
     return ListView.builder(
-      itemCount: posts.length,
+      controller: scrollController,
+      itemCount: posts.length + 1,
       itemBuilder: (context, index) {
+        if (index == posts.length) return loadMoreButton();
         return PostCard(post: posts[index]);
       },
     );
+  }
+
+  Widget loadMoreButton() {
+    final state = postBloc.state as PostLoaded;
+    if (state.isLastPage) return const SizedBox();
+
+    if (state.onLoadMore) {
+      return const Padding(
+        padding: EdgeInsets.only(top: 8, bottom: 16),
+        child: Center(child: CustomLoading()),
+      );
+    }
+
+    return TextButton(onPressed: loadMore, child: const Text('Carregar mais'));
+  }
+
+  void scrollTrigger() {
+    if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
+      loadMore();
+    }
+  }
+
+  void loadMore() {
+    postBloc.add(PostLoadMore());
   }
 
   void logout() {

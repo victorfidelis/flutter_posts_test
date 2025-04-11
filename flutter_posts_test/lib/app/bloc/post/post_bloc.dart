@@ -7,6 +7,7 @@ import 'package:flutter_posts_test/app/shared/either/either_extensions.dart';
 class PostBloc extends Bloc<PostEvent, PostState> {
   PostBloc({required this.postRepository}) : super(PostInitial()) {
     on<PostLoad>(_onPostLoad);
+    on<PostLoadMore>(_onPostLoadMore);
   }
 
   final PostRepository postRepository;
@@ -20,5 +21,12 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     } else {
       emit(PostLoaded(posts: postEither.right!));
     }
-  }
+  } 
+  
+  Future<void> _onPostLoadMore(PostLoadMore event, Emitter<PostState> emit) async {
+    final currentState = (state as PostLoaded).copyWith(onLoadMore: true);
+    emit(currentState);
+    await currentState.nextPage();
+    emit(currentState.copyWith(onLoadMore: false));
+  } 
 }
