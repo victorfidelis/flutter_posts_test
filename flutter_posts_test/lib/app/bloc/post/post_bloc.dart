@@ -5,12 +5,12 @@ import 'package:flutter_posts_test/app/repository/post/post_repository.dart';
 import 'package:flutter_posts_test/app/shared/either/either_extensions.dart';
 
 class PostBloc extends Bloc<PostEvent, PostState> {
+  final PostRepository postRepository;
+  
   PostBloc({required this.postRepository}) : super(PostInitial()) {
     on<PostLoad>(_onPostLoad);
     on<PostLoadMore>(_onPostLoadMore);
   }
-
-  final PostRepository postRepository;
 
   Future<void> _onPostLoad(PostLoad event, Emitter<PostState> emit) async {
     emit(PostLoading());

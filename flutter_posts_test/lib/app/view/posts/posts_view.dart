@@ -74,7 +74,7 @@ class _PostsViewState extends State<PostsView> {
       itemCount: posts.length + 1,
       itemBuilder: (context, index) {
         if (index == posts.length) return loadMoreButton();
-        return PostCard(post: posts[index]);
+        return PostCard(post: posts[index], onTap: onClickPost);
       },
     );
   }
@@ -105,5 +105,9 @@ class _PostsViewState extends State<PostsView> {
 
   void logout() {
     context.read<WrapperBloc>().add(LogOut());
+  }
+
+  void onClickPost(Post post) {
+    Navigator.pushNamed(context, '/postDetails', arguments: {'post': post});
   }
 }

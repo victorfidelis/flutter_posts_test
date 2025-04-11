@@ -7,6 +7,8 @@ import 'package:flutter_posts_test/app/repository/post/dio_post_repository.dart'
 import 'package:flutter_posts_test/app/repository/post/post_repository.dart';
 import 'package:flutter_posts_test/app/repository/user/firebase_user_repository.dart';
 import 'package:flutter_posts_test/app/repository/user/user_repository.dart';
+import 'package:flutter_posts_test/app/repository/user_of_post/dio_user_of_post_repository.dart';
+import 'package:flutter_posts_test/app/repository/user_of_post/user_of_post_repository.dart';
 import 'package:flutter_posts_test/app/view/routes.dart';
 
 class App extends StatelessWidget {
@@ -19,9 +21,10 @@ class App extends StatelessWidget {
         RepositoryProvider<AuthRepository>(create: (_) => FirebaseAuthRepository()),
         RepositoryProvider<UserRepository>(create: (_) => FirebaseUserRepository()),
         RepositoryProvider<PostRepository>(create: (_) => DioPostRepository()),
+        RepositoryProvider<UserOfPostRepository>(create: (_) => DioUserOfPostRepository()),
       ],
-      child: MultiBlocProvider(
-        providers: [BlocProvider(create: (_) => WrapperBloc())],
+      child: BlocProvider(
+        create: (_) => WrapperBloc(),
         child: MaterialApp(initialRoute: '/wrapper', onGenerateRoute: getRoute),
       ),
     );

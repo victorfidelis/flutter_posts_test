@@ -9,7 +9,7 @@ class WrapperBloc extends Bloc<WrapperEvent, WrapperState> {
   }
 
   void _onLogIn(LogIn event, Emitter<WrapperState> emit) async {
-    emit(LoggedIn(user: event.user));
+    emit(LoggedIn(event.user));
   }
 
   void _onLogOut(LogOut event, Emitter<WrapperState> emit) async {

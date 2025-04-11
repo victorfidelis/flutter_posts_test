@@ -5,6 +5,6 @@ abstract class WrapperState {}
 
 class LoggedIn extends WrapperState {
   User user;
-  LoggedIn({required this.user});
+  LoggedIn(this.user);
 }
 class LoggedOut extends WrapperState {}
