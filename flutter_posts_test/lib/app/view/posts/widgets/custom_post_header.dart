@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_posts_test/app/bloc/wrapper/wrapper_bloc.dart';
 import 'package:flutter_posts_test/app/bloc/wrapper/wrapper_state.dart';
 import 'package:flutter_posts_test/app/model/user.dart';
+import 'package:flutter_posts_test/app/shared/widgets/profile_image.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class CustomPostHeader extends StatefulWidget {
   final Function() onClickImageProfile;
@@ -41,10 +43,7 @@ class _CustomPostHeaderState extends State<CustomPostHeader> {
   Widget buildImage() {
     return GestureDetector(
       onTap: widget.onClickImageProfile,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(50),
-        child: Image.network(user.profilePicture, width: 50, height: 50, fit: BoxFit.cover),
-      ),
+      child: ProfileImage(url: user.profilePicture, width: 50, height: 50),
     );
   }
 

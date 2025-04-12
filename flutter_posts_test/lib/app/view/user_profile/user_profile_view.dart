@@ -6,6 +6,8 @@ import 'package:flutter_posts_test/app/bloc/wrapper/wrapper_state.dart';
 import 'package:flutter_posts_test/app/model/user.dart';
 import 'package:flutter_posts_test/app/shared/notifications/custom_notifications.dart';
 import 'package:flutter_posts_test/app/shared/widgets/back_navigation.dart';
+import 'package:flutter_posts_test/app/shared/widgets/profile_image.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class UserProfileView extends StatefulWidget {
   const UserProfileView({super.key});
@@ -64,8 +66,9 @@ class _UserProfileViewState extends State<UserProfileView> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Image.network(
-          user.backgroundImage,
+        FadeInImage.memoryNetwork(
+          placeholder: kTransparentImage,
+          image: user.backgroundImage,
           fit: BoxFit.fitWidth,
           width: double.infinity,
           height: 150,
@@ -81,10 +84,7 @@ class _UserProfileViewState extends State<UserProfileView> {
       child: Container(
         padding: EdgeInsets.all(3),
         color: Colors.white,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(200),
-          child: Image.network(user.profilePicture, width: 120, height: 120, fit: BoxFit.cover),
-        ),
+        child: ProfileImage(url: user.profilePicture, width: 120, height: 120)
       ),
     );
   }

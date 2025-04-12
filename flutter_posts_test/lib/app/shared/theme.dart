@@ -13,6 +13,5 @@ ThemeData mainTheme = ThemeData(
     onSurface: Colors.black,
     primaryContainer: Color(0xff0E293C),
     onPrimaryContainer: Colors.white,
-    shadow: Color(0x50000000),
   ),
 );
