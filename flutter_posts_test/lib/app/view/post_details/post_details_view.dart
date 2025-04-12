@@ -37,41 +37,38 @@ class _PostDetailsViewState extends State<PostDetailsView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Detalhes do Post',
-          style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
-        ),
-        centerTitle: true,
+        toolbarHeight: 45,
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            BlocBuilder<UserOfPostBloc, UserOfPostState>(
+              bloc: userOfPostBloc,
+              builder: (context, state) {
+                if (state is UserOfPostLoading || state is UserOfPostInitial) {
+                  return const Center(child: CustomLoading());
+                }
+                if (state is UserOfPostFailure) {
+                  return Center(child: CustomTextError(message: state.message));
+                }
+                final currentState = (state as UserOfPostLoaded);
+                return UserOfPostCard(
+                  user: currentState.userOfPost,
+                );
+              },
+            ),
+            const SizedBox(height: 4),
+            Divider(thickness: 1),
+            Text(
               widget.post.title,
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(widget.post.body, style: const TextStyle(fontSize: 16)),
-          ),
-          BlocBuilder<UserOfPostBloc, UserOfPostState>(
-            bloc: userOfPostBloc,
-            builder: (context, state) {
-              if (state is UserOfPostLoading || state is UserOfPostInitial) {
-                return const Center(child: CustomLoading());
-              }
-              if (state is UserOfPostFailure) {
-                return Center(child: CustomTextError(message: state.message));
-              }
-              final currentState = (state as UserOfPostLoaded);
-              return UserOfPostCard(
-                user: currentState.userOfPost,
-              );
-            },
-          ),
-        ],
+            const SizedBox(height: 8),
+            Text(widget.post.body, style: const TextStyle(fontSize: 16)),
+          ],
+        ),
       ),
     );
   }

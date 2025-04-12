@@ -12,20 +12,13 @@ class UserOfPostCard extends StatefulWidget {
 class _UserOfPostCardState extends State<UserOfPostCard> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(16.0),
-      child: Column(
-        children: [
-          Text(
-            'User of Post',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 16),
-          Text(widget.user.name, style: TextStyle(fontSize: 18)),
-          Text(widget.user.email, style: TextStyle(fontSize: 14)),
-          Text(widget.user.phone, style: TextStyle(fontSize: 14)),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(widget.user.name, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        Text(widget.user.email, style: TextStyle(fontSize: 14)),
+        Text(widget.user.phone, style: TextStyle(fontSize: 14)),
+      ],
     );
   }
 }

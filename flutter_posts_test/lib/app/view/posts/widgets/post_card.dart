@@ -62,8 +62,6 @@ class _PostCardState extends State<PostCard> {
   InlineSpan buildClickableText() {
     if (isExpanable && !isExpanded) {
       return buildSpanClickable('   Ver mais');
-    } else if (isExpanable && isExpanded) {
-      return buildSpanClickable('   Ver menos');
     } else {
       return TextSpan();
     }
