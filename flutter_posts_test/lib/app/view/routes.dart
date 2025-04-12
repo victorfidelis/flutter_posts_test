@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_posts_test/app/view/post_details/post_details_view.dart';
 import 'package:flutter_posts_test/app/view/user_profile/user_profile_view.dart';
@@ -19,8 +18,5 @@ Route<dynamic>? getRoute(RouteSettings settings) {
 }
 
 MaterialPageRoute _buildRoute(RouteSettings settings, Widget builder) {
-  return MaterialPageRoute(
-    settings: settings,
-    builder: (ctx) => builder,
-  );
+  return MaterialPageRoute(settings: settings, builder: (ctx) => builder);
 }

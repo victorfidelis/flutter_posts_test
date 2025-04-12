@@ -44,7 +44,7 @@ class _PostsViewState extends State<PostsView> {
       body: CustomScrollView(
         controller: scrollController,
         slivers: [
-          SliverFloatingHeader(child: CustomPostHeader(onClickImageProfile: onClickImageProfile,)),
+          SliverFloatingHeader(child: CustomPostHeader(onClickImageProfile: onClickImageProfile)),
           BlocBuilder<PostBloc, PostState>(
             bloc: postBloc,
             builder: (context, state) {
@@ -79,12 +79,15 @@ class _PostsViewState extends State<PostsView> {
   }
 
   Widget buildPostsList(List<Post> posts) {
-    return SliverList.builder(
-      itemCount: posts.length + 1,
-      itemBuilder: (context, index) {
-        if (index == posts.length) return loadMoreButton();
-        return PostCard(post: posts[index], onTap: onClickPost);
-      },
+    return SliverPadding(
+      padding: EdgeInsets.only(top: 4),
+      sliver: SliverList.builder(
+        itemCount: posts.length + 1,
+        itemBuilder: (context, index) {
+          if (index == posts.length) return loadMoreButton();
+          return PostCard(post: posts[index], onTap: onClickPost);
+        },
+      ),
     );
   }
 

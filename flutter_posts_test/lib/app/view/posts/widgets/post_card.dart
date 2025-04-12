@@ -23,26 +23,19 @@ class _PostCardState extends State<PostCard> {
     return GestureDetector(
       onTap: () => widget.onTap(widget.post),
       child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        margin: const EdgeInsets.symmetric(vertical: 6),
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: const BorderRadius.all(Radius.circular(12)),
-          boxShadow: [
-            BoxShadow(
-              color: Color(0x50000000),
-              offset: const Offset(0, 4),
-              blurStyle: BlurStyle.normal,
-              blurRadius: 4,
-            ),
-          ],
-        ),
+        decoration: BoxDecoration(color: Theme.of(context).colorScheme.surfaceBright),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               widget.post.title,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.onPrimaryContainer,
+              ),
             ),
             const SizedBox(height: 8),
             buildBody(),
@@ -56,7 +49,10 @@ class _PostCardState extends State<PostCard> {
     return RichText(
       text: TextSpan(
         children: [
-          TextSpan(text: text, style: TextStyle(color: Colors.black)),
+          TextSpan(
+            text: text,
+            style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+          ),
           buildClickableText(),
         ],
       ),

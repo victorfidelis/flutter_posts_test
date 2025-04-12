@@ -10,8 +10,7 @@ import 'package:flutter_posts_test/app/repository/user/firebase_user_repository.
 import 'package:flutter_posts_test/app/repository/user/user_repository.dart';
 import 'package:flutter_posts_test/app/repository/user_of_post/dio_user_of_post_repository.dart';
 import 'package:flutter_posts_test/app/repository/user_of_post/user_of_post_repository.dart';
-import 'package:flutter_posts_test/app/shared/theme.dart';
-import 'package:flutter_posts_test/app/shared/widgets/status_bar_opaque.dart';
+import 'package:flutter_posts_test/app/shared/themes/theme.dart';
 import 'package:flutter_posts_test/app/view/routes.dart';
 
 class App extends StatelessWidget {
@@ -19,17 +18,29 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StatusBarOpaque(
-      child: MultiRepositoryProvider(
-        providers: [
-          RepositoryProvider<AuthRepository>(create: (_) => FirebaseAuthRepository()),
-          RepositoryProvider<UserRepository>(create: (_) => FirebaseUserRepository()),
-          RepositoryProvider<PostRepository>(create: (_) => DioPostRepository()),
-          RepositoryProvider<UserOfPostRepository>(create: (_) => DioUserOfPostRepository()),
-        ],
-        child: BlocProvider(
-          create: (_) => WrapperBloc(),
-          child: MaterialApp(initialRoute: '/wrapper', onGenerateRoute: getRoute, theme: mainTheme),
+    final bool isDarkMode = false;
+
+    final ThemeData theme;
+    if (isDarkMode) {
+      theme = MaterialTheme().dark();
+    } else {
+      theme = MaterialTheme().light();
+    }
+
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider<AuthRepository>(create: (_) => FirebaseAuthRepository()),
+        RepositoryProvider<UserRepository>(create: (_) => FirebaseUserRepository()),
+        RepositoryProvider<PostRepository>(create: (_) => DioPostRepository()),
+        RepositoryProvider<UserOfPostRepository>(create: (_) => DioUserOfPostRepository()),
+      ],
+      child: BlocProvider(
+        create: (_) => WrapperBloc(),
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          initialRoute: '/wrapper',
+          onGenerateRoute: getRoute,
+          theme: theme,
         ),
       ),
     );

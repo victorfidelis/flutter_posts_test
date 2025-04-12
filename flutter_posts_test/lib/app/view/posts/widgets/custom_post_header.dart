@@ -4,7 +4,6 @@ import 'package:flutter_posts_test/app/bloc/wrapper/wrapper_bloc.dart';
 import 'package:flutter_posts_test/app/bloc/wrapper/wrapper_state.dart';
 import 'package:flutter_posts_test/app/model/user.dart';
 import 'package:flutter_posts_test/app/shared/widgets/profile_image.dart';
-import 'package:transparent_image/transparent_image.dart';
 
 class CustomPostHeader extends StatefulWidget {
   final Function() onClickImageProfile;
@@ -27,11 +26,10 @@ class _CustomPostHeaderState extends State<CustomPostHeader> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
-        boxShadow: [BoxShadow(color: Color(0x50000000), offset: const Offset(0, 8), blurRadius: 8)],
+        color: Theme.of(context).appBarTheme.backgroundColor,
       ),
       child: Padding(
-        padding: const EdgeInsets.only(left: 14, top: 40, bottom: 12),
+        padding: const EdgeInsets.only(left: 14, top: 54, bottom: 12),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [buildImage(), const SizedBox(width: 16), Expanded(child: buildUserInfo())],

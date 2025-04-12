@@ -83,8 +83,8 @@ class _UserProfileViewState extends State<UserProfileView> {
       borderRadius: BorderRadius.circular(200),
       child: Container(
         padding: EdgeInsets.all(3),
-        color: Colors.white,
-        child: ProfileImage(url: user.profilePicture, width: 120, height: 120)
+        color: Theme.of(context).colorScheme.surface,
+        child: ProfileImage(url: user.profilePicture, width: 120, height: 120),
       ),
     );
   }
@@ -134,7 +134,10 @@ class _UserProfileViewState extends State<UserProfileView> {
         children:
             user.likes.map((like) {
               return Chip(
-                label: Text(like, style: TextStyle(fontWeight: FontWeight.bold)),
+                label: Text(
+                  like,
+                  style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xff303030)),
+                ),
                 backgroundColor: Colors.blue[100],
               );
             }).toList(),
