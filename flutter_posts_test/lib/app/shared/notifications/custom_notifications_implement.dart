@@ -29,34 +29,6 @@ class CustomNotificationsImplement implements CustomNotifications {
   }
 
   @override
-  Future<void> showSuccessAlert({
-    required BuildContext context,
-    required String title,
-    required String content,
-    Function()? confirmCallback,
-  }) async {
-    await showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text(title),
-            content: Text(content),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                  if (confirmCallback != null) {
-                    confirmCallback();
-                  }
-                },
-                child: const Text('Ok'),
-              ),
-            ],
-          );
-        });
-  }
-
-  @override
   Future<void> showQuestionAlert({
     required BuildContext context,
     required String title,

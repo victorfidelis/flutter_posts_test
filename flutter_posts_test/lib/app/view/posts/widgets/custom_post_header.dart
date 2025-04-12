@@ -5,7 +5,8 @@ import 'package:flutter_posts_test/app/bloc/wrapper/wrapper_state.dart';
 import 'package:flutter_posts_test/app/model/user.dart';
 
 class CustomPostHeader extends StatefulWidget {
-  const CustomPostHeader({super.key});
+  final Function() onClickImageProfile;
+  const CustomPostHeader({super.key, required this.onClickImageProfile});
 
   @override
   State<CustomPostHeader> createState() => _CustomPostHeaderState();
@@ -38,9 +39,12 @@ class _CustomPostHeaderState extends State<CustomPostHeader> {
   }
 
   Widget buildImage() {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(50),
-      child: Image.network(user.profilePicture, width: 50, height: 50, fit: BoxFit.cover),
+    return GestureDetector(
+      onTap: widget.onClickImageProfile,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(50),
+        child: Image.network(user.profilePicture, width: 50, height: 50, fit: BoxFit.cover),
+      ),
     );
   }
 

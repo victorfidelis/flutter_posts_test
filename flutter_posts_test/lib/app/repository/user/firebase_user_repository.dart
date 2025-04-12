@@ -10,48 +10,6 @@ import 'package:flutter_posts_test/app/shared/failure.dart/network_failures.dart
 
 class FirebaseUserRepository implements UserRepository{
   final _firebaseInitializer = FirebaseInitializer();
-  
-  @override
-  Future<Either<Failure, String>> createUser(User user) async {
-    final initializeEither = await _firebaseInitializer.initialize();
-    if (initializeEither.isLeft) {
-      return Either.left(initializeEither.left);
-    }
-    
-    try {
-      final usersCollection = FirebaseFirestore.instance.collection('users');
-      DocumentReference docRef =
-          await usersCollection.add(user.toFirebase());
-      DocumentSnapshot docSnap = await docRef.get();
-      return Either.right(docSnap.id);
-    } on FirebaseException catch (e) {
-      if (e.code == 'unavailable') {
-        return Either.left(NetworkFailure('Sem conexão com a internet'));
-      } else {
-        return Either.left(Failure('Firestore error: ${e.message}'));
-      }
-    }
-  }
-
-  @override
-  Future<Either<Failure, Unit>> deleteUser(String userId) async {
-    final initializeEither = await _firebaseInitializer.initialize();
-    if (initializeEither.isLeft) {
-      return Either.left(initializeEither.left);
-    }
-    
-    try {
-      final usersCollection = FirebaseFirestore.instance.collection('users');
-      await usersCollection.doc(userId).delete();
-      return Either.right(unit);
-    } on FirebaseException catch (e) {
-      if (e.code == 'unavailable') {
-        return Either.left(NetworkFailure('Sem conexão com a internet'));
-      } else {
-        return Either.left(Failure('Firestore error: ${e.message}'));
-      }
-    }
-  }
 
   @override
   Future<Either<Failure, User>> getUserByEmail(String email) async{
@@ -79,27 +37,4 @@ class FirebaseUserRepository implements UserRepository{
       }
     }
   }
-
-  @override
-  Future<Either<Failure, Unit>> updateUser(User user) async {
-    final initializeEither = await _firebaseInitializer.initialize();
-    if (initializeEither.isLeft) {
-      return Either.left(initializeEither.left);
-    }
-    
-    try {
-      final usersCollection = FirebaseFirestore.instance.collection('users');
-      await usersCollection
-          .doc(user.id)
-          .update(user.toFirebase());
-      return Either.right(unit);
-    } on FirebaseException catch (e) {
-      if (e.code == 'unavailable') {
-        return Either.left(NetworkFailure('Sem conexão com a internet'));
-      } else {
-        return Either.left(Failure('Firestore error: ${e.message}'));
-      }
-    }
-  }
-
 }

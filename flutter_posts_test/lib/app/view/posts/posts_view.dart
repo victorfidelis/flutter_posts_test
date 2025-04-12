@@ -44,7 +44,7 @@ class _PostsViewState extends State<PostsView> {
       body: CustomScrollView(
         controller: scrollController,
         slivers: [
-          SliverFloatingHeader(child: CustomPostHeader()),
+          SliverFloatingHeader(child: CustomPostHeader(onClickImageProfile: onClickImageProfile,)),
           BlocBuilder<PostBloc, PostState>(
             bloc: postBloc,
             builder: (context, state) {
@@ -72,6 +72,10 @@ class _PostsViewState extends State<PostsView> {
         ],
       ),
     );
+  }
+
+  void onClickImageProfile() {
+    Navigator.pushNamed(context, '/userProfile');
   }
 
   Widget buildPostsList(List<Post> posts) {
