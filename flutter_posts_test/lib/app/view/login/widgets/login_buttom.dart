@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class DefaultButtom extends StatelessWidget {
+class LoginButtom extends StatelessWidget {
   final String label;
   final Function()? onTap;
 
-  const DefaultButtom({super.key,
+  const LoginButtom({super.key,
     required this.label,
     this.onTap,
   });

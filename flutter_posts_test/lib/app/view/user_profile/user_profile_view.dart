@@ -57,7 +57,7 @@ class _UserProfileViewState extends State<UserProfileView> {
         buildBackgoundHeader(),
         Positioned(top: 110, left: 12, child: buildImage()),
         Positioned(top: 170, left: 150, child: buildUserName()),
-        Positioned(top: 46, left: 6, child: BackNavigation(onTap: () => Navigator.pop(context))),
+        Positioned(top: 50, left: 6, child: BackNavigation(onTap: () => Navigator.pop(context))),
       ],
     );
   }

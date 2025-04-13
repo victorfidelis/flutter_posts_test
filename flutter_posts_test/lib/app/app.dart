@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_posts_test/app/bloc/theme/theme_bloc.dart';
 import 'package:flutter_posts_test/app/bloc/theme/theme_state.dart';
@@ -9,7 +8,6 @@ import 'package:flutter_posts_test/app/repository/auth/firebase_auth_repository.
 import 'package:flutter_posts_test/app/repository/post/dio_post_repository.dart';
 import 'package:flutter_posts_test/app/repository/post/post_repository.dart';
 import 'package:flutter_posts_test/app/repository/theme_repository/shared_theme_repository.dart';
-import 'package:flutter_posts_test/app/repository/theme_repository/theme_repository.dart';
 import 'package:flutter_posts_test/app/repository/user/firebase_user_repository.dart';
 import 'package:flutter_posts_test/app/repository/user/user_repository.dart';
 import 'package:flutter_posts_test/app/repository/user_of_post/dio_user_of_post_repository.dart';
