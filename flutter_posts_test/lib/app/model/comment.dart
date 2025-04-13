@@ -13,7 +13,7 @@ class Comment {
     required this.body,
   });
 
-  factory Comment.fromJson(Map<String, dynamic> json) {
+  factory Comment.fromMap(Map<String, dynamic> json) {
     return Comment(
       postId: json['postId'] as int,
       id: json['id'] as int,

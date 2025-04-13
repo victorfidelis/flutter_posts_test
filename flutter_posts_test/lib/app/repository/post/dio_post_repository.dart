@@ -20,7 +20,7 @@ class DioPostRepository implements PostRepository {
     }
 
     if (response.statusCode == 200) {
-      final List<Post> posts = (response.data as List).map((post) => Post.fromJson(post)).toList();
+      final List<Post> posts = (response.data as List).map((post) => Post.fromMap(post)).toList();
       return Either.right(posts);
     } else {
       return Either.left(ServerFailure('Ocorreu uma falha ao consultar os posts.'));
@@ -37,7 +37,7 @@ class DioPostRepository implements PostRepository {
     }
 
     if (response.statusCode == 200) {
-      final user = UserOfPost.fromJson(response.data);
+      final user = UserOfPost.fromMap(response.data);
       return Either.right(user);
     } else {
       return Either.left(ServerFailure('Ocorreu uma falha ao consultar o usuário.'));
@@ -55,7 +55,7 @@ class DioPostRepository implements PostRepository {
 
     if (response.statusCode == 200) {
       final List<Comment> comment =
-          (response.data as List).map((comment) => Comment.fromJson(comment)).toList();
+          (response.data as List).map((comment) => Comment.fromMap(comment)).toList();
       return Either.right(comment);
     } else {
       return Either.left(ServerFailure('Ocorreu uma falha ao consultar os comentário.'));

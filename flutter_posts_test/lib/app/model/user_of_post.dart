@@ -13,7 +13,7 @@ class UserOfPost {
     required this.phone,
   });
 
-  factory UserOfPost.fromJson(Map<String, dynamic> json) {
+  factory UserOfPost.fromMap(Map<String, dynamic> json) {
     return UserOfPost(
       id: json['id'],
       name: json['name'],

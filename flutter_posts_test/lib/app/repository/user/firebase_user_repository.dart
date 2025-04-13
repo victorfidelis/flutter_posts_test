@@ -26,7 +26,7 @@ class FirebaseUserRepository implements UserRepository{
       if (querySnap.docs.isEmpty) {
         return Either.left(UserNotFoundFailure('Usuário não encontrado'));
       } else {
-        User user = User.fromFirebase(querySnap.docs[0]);
+        User user = User.fromMap(querySnap.docs[0].data() as Map<String, dynamic>);
         return Either.right(user);
       }
     } on FirebaseException catch (e) {

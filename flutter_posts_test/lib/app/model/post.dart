@@ -11,7 +11,7 @@ class Post {
     required this.body,
   }); 
 
-  factory Post.fromJson(Map<String, dynamic> json) {
+  factory Post.fromMap(Map<String, dynamic> json) {
     return Post(
       userId: json['userId'] as int,
       id: json['id'] as int,

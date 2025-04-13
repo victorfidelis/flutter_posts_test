@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class User {
-  String? id;
   String name;
   String surname;
   String email;
@@ -12,7 +11,6 @@ class User {
   List<String> likes;
 
   User({
-    this.id,
     required this.name,
     required this.surname,
     required this.email,
@@ -25,11 +23,8 @@ class User {
 
   String get fullName => '$name $surname';
 
-  factory User.fromFirebase(DocumentSnapshot doc) {
-    Map<String, dynamic> map = (doc.data() as Map<String, dynamic>);
-
+  factory User.fromMap(Map<String, dynamic> map) {
     return User(
-      id: doc.id,
       name: map['name'],
       surname: map['surname'],
       email: map['email'],
