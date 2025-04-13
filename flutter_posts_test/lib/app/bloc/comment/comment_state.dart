@@ -1,15 +1,15 @@
 import 'package:flutter_posts_test/app/model/comment.dart';
 
-abstract class CommentsState {}
+abstract class CommentState {}
 
-class CommentsInitial extends CommentsState {}
-class CommentsLoading extends CommentsState {}
-class CommentsLoaded extends CommentsState {
+class CommentInitial extends CommentState {}
+class CommentLoading extends CommentState {}
+class CommentLoaded extends CommentState {
   final List<Comment> comments;
-  CommentsLoaded(this.comments);
+  CommentLoaded(this.comments);
 }
-class CommentsFailure extends CommentsState {
+class CommentFailure extends CommentState {
   final String message;
-  CommentsFailure(this.message);
+  CommentFailure(this.message);
 }
 

@@ -98,14 +98,14 @@ class _PostDetailsViewState extends State<PostDetailsView> {
   }
 
   Widget buildCommentsTitle() {
-    return BlocBuilder<CommentBloc, CommentsState>(
+    return BlocBuilder<CommentBloc, CommentState>(
       bloc: commentBloc,
       builder: (context, state) {
-        if (state is CommentsLoading || state is CommentsInitial || state is CommentsFailure) {
+        if (state is CommentLoading || state is CommentInitial || state is CommentFailure) {
           return SliverToBoxAdapter(child: const SizedBox());
         }
 
-        final quantityComments = (commentBloc.state as CommentsLoaded).comments.length;
+        final quantityComments = (commentBloc.state as CommentLoaded).comments.length;
         return SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.only(bottom: 8.0),
@@ -120,16 +120,16 @@ class _PostDetailsViewState extends State<PostDetailsView> {
   }
 
   Widget buildComments() {
-    return BlocBuilder<CommentBloc, CommentsState>(
+    return BlocBuilder<CommentBloc, CommentState>(
       bloc: commentBloc,
       builder: (context, state) {
-        if (state is CommentsLoading || state is CommentsInitial) {
+        if (state is CommentLoading || state is CommentInitial) {
           return SliverToBoxAdapter(child: const Center(child: CustomLoading()));
         }
-        if (state is CommentsFailure) {
+        if (state is CommentFailure) {
           return SliverToBoxAdapter(child: Center(child: CustomTextError(message: state.message)));
         }
-        final currentState = (state as CommentsLoaded);
+        final currentState = (state as CommentLoaded);
         return SliverList.builder(
           itemCount: currentState.comments.length,
           itemBuilder: (context, index) {

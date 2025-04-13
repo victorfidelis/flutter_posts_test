@@ -5,21 +5,21 @@ import 'package:flutter_posts_test/app/bloc/comment/comment_state.dart';
 import 'package:flutter_posts_test/app/repository/post/post_repository.dart';
 import 'package:flutter_posts_test/app/shared/either/either_extensions.dart';
 
-class CommentBloc extends Bloc<CommentsEvent, CommentsState> {
+class CommentBloc extends Bloc<CommentsEvent, CommentState> {
   
   final PostRepository postRepository;
-  CommentBloc({required this.postRepository}) : super(CommentsInitial()) {
+  CommentBloc({required this.postRepository}) : super(CommentInitial()) {
     on<LoadComments>(_onLoadComments);
   }
   
-  Future<void> _onLoadComments(LoadComments event, Emitter<CommentsState> emit) async {
-    emit(CommentsLoading());
+  Future<void> _onLoadComments(LoadComments event, Emitter<CommentState> emit) async {
+    emit(CommentLoading());
 
     final commentsEither = await postRepository.getComments(event.postId);
     if (commentsEither.isLeft) {
-      emit(CommentsFailure(commentsEither.left!.message));
+      emit(CommentFailure(commentsEither.left!.message));
     } else {
-      emit(CommentsLoaded(commentsEither.right!));
+      emit(CommentLoaded(commentsEither.right!));
     }
   }
 }

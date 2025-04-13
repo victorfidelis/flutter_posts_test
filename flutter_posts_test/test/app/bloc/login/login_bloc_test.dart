@@ -34,6 +34,17 @@ void main() {
   });
 
   group('Testando evento LoginButtonPressed', () {
+    User user = User(
+      name: 'John',
+      surname: 'Doe',
+      email: 'johndoe@gmail.com',
+      profilePicture: 'http://example.com/profile.jpg',
+      backgroundImage: 'http://example.com/background.jpg',
+      age: 30,
+      numberOfPosts: 30,
+      likes: ['Filmes', 'Tecnologia'],
+    );
+
     blocTest(
       'Deve emitir os estados LoginLoading e posteriormente LoginFailure quando o email for vazio',
       build: () => loginBloc,
@@ -70,16 +81,6 @@ void main() {
       act: (bloc) {
         final email = 'johndoe@gmail.com';
         final password = '1234';
-        User user = User(
-          name: 'John',
-          surname: 'Doe',
-          email: 'johndoe@gmail.com',
-          profilePicture: 'http://example.com/profile.jpg',
-          backgroundImage: 'http://example.com/background.jpg',
-          age: 30,
-          numberOfPosts: 30,
-          likes: ['Filmes', 'Tecnologia'],
-        );
 
         when(
           () => authRepository.signInEmailPassword(email: email, password: password),
@@ -90,7 +91,11 @@ void main() {
 
         bloc.add(LoginButtonPressed(email: email, password: password));
       },
-      expect: () => [isA<LoginLoading>(), isA<LoginSuccess>()],
+      expect:
+          () => [
+            isA<LoginLoading>(),
+            isA<LoginSuccess>().having((status) => status.user, 'Usuário', equals(user)),
+          ],
     );
   });
 
