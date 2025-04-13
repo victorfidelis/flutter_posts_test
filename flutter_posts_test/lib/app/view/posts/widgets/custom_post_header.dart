@@ -16,9 +16,13 @@ class CustomPostHeader extends StatefulWidget {
 
 class _CustomPostHeaderState extends State<CustomPostHeader> {
   late User user;
+  final animateUserInfo = ValueNotifier<bool>(false);
 
   @override
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      animateUserInfo.value = true;
+    });
     user = (context.read<WrapperBloc>().state as LoggedIn).user;
     super.initState();
   }
@@ -34,7 +38,7 @@ class _CustomPostHeaderState extends State<CustomPostHeader> {
           children: [
             buildImage(),
             const SizedBox(width: 16),
-            Expanded(child: buildUserInfo()),
+            Expanded(child: buildAnimatedUserInfo()),
             ThemeButtom(),
           ],
         ),
@@ -49,17 +53,22 @@ class _CustomPostHeaderState extends State<CustomPostHeader> {
     );
   }
 
-  Widget buildUserInfo() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            const Text('Bem-vindo, ', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-            Text(user.name, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-          ],
-        ),
-      ],
+  Widget buildAnimatedUserInfo() {
+    return ListenableBuilder(
+      listenable: animateUserInfo,
+      builder: (context, _) {
+        return AnimatedOpacity(
+          duration: const Duration(milliseconds: 800),
+          opacity: animateUserInfo.value ? 1 : 0,
+          curve: Curves.easeInOut,
+          child: Row(
+            children: [
+              const Text('Bem-vindo, ', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+              Text(user.name, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            ],
+          ),
+        );
+      }
     );
   }
 }

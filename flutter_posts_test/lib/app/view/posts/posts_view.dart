@@ -84,14 +84,17 @@ class _PostsViewState extends State<PostsView> {
       sliver: SliverList.builder(
         itemCount: posts.length + 1,
         itemBuilder: (context, index) {
-          if (index == posts.length) return loadMoreButton();
+          if (index == posts.length) return loadMorePostsButton();
           return PostCard(post: posts[index], onTap: onClickPost);
         },
       ),
     );
   }
 
-  Widget loadMoreButton() {
+  // Botão para carregar mais posts.
+  // Normalmente o scrollTrigger irá efetuar o carregamento de mais posts, mas se por algum motivo 
+  // o scroll não disparar, o usuário pode clicar no botão para carregar mais posts.
+  Widget loadMorePostsButton() {
     final state = postBloc.state as PostLoaded;
     if (state.isLastPage) return const SizedBox();
 
@@ -105,6 +108,7 @@ class _PostsViewState extends State<PostsView> {
     return TextButton(onPressed: loadMore, child: const Text('Carregar mais'));
   }
 
+  // Dispara o carregamento de mais posts quando o usuário chega ao final da lista
   void scrollTrigger() {
     if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
       loadMore();

@@ -22,7 +22,6 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-  late final LoginBloc loginBloc;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final notifications = CustomNotifications();
@@ -33,17 +32,11 @@ class _LoginViewState extends State<LoginView> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       animate.value = true;
     });
-
-    loginBloc = LoginBloc(
-      authRepository: context.read<AuthRepository>(),
-      userRepository: context.read<UserRepository>(),
-    );
     super.initState();
   }
 
   @override
   void dispose() {
-    loginBloc.close();
     emailController.dispose();
     passwordController.dispose();
 
@@ -115,7 +108,6 @@ class _LoginViewState extends State<LoginView> {
 
   Widget buildLoginControls() {
     return BlocConsumer<LoginBloc, LoginState>(
-      bloc: loginBloc,
       listener: (context, state) {
         if (state is LoginSuccess) {
           onLoginSuccess(state.user);
@@ -170,7 +162,7 @@ class _LoginViewState extends State<LoginView> {
     final email = emailController.text;
     final password = passwordController.text;
 
-    loginBloc.add(LoginButtonPressed(email: email, password: password));
+    context.read<LoginBloc>().add(LoginButtonPressed(email: email, password: password));
   }
 
   void onLoginSuccess(User user) {

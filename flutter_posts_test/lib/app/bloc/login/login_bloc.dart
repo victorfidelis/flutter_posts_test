@@ -7,31 +7,31 @@ import 'package:flutter_posts_test/app/shared/either/either_extensions.dart';
 import 'package:flutter_posts_test/app/shared/failure.dart/auth_failures.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  LoginBloc({
-    required this.authRepository,
-    required this.userRepository,
-  }) : super(LoginInitial()) {
+  LoginBloc({required this.authRepository, required this.userRepository}) : super(LoginInitial()) {
     on<LoginButtonPressed>(_onLoginButtonPressed);
-  } 
-  
+    on<LogoutButtonPressed>(_onLogoutButtonPressed);
+  }
+
   AuthRepository authRepository;
   UserRepository userRepository;
 
-  Future<void> _onLoginButtonPressed(
-      LoginButtonPressed event, Emitter<LoginState> emit) async {
+  Future<void> _onLoginButtonPressed(LoginButtonPressed event, Emitter<LoginState> emit) async {
     emit(LoginLoading());
 
     if (event.email.isEmpty) {
       emit(LoginFailure(emailMessage: 'Email não pode ser vazio'));
       return;
     }
-    
+
     if (event.password.isEmpty) {
       emit(LoginFailure(passwordMessage: 'Senha não pode ser vazia'));
       return;
     }
-    
-    final authEither = await authRepository.signInEmailPassword(email: event.email, password:  event.password);
+
+    final authEither = await authRepository.signInEmailPassword(
+      email: event.email,
+      password: event.password,
+    );
     if (authEither.isLeft) {
       if (authEither.left is EmailNotVerifiedFailure) {
         await authRepository.sendEmailVerificationForCurrentUser();
@@ -47,5 +47,15 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     } else {
       emit(LoginSuccess(user: userEither.right!));
     }
-  } 
+  }
+
+  Future<void> _onLogoutButtonPressed(LogoutButtonPressed event, Emitter<LoginState> emit) async {
+    final authEither = await authRepository.signOut();
+    if (authEither.isLeft) {
+      emit(LoginFailure(genericMessage: authEither.left!.message));
+      return;
+    }
+
+    emit(LoginInitial());
+  }
 }

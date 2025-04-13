@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_posts_test/app/bloc/login/login_bloc.dart';
+import 'package:flutter_posts_test/app/bloc/login/login_event.dart';
 import 'package:flutter_posts_test/app/bloc/wrapper/wrapper_bloc.dart';
 import 'package:flutter_posts_test/app/bloc/wrapper/wrapper_event.dart';
 import 'package:flutter_posts_test/app/bloc/wrapper/wrapper_state.dart';
@@ -54,15 +56,15 @@ class _UserProfileViewState extends State<UserProfileView> {
   Widget buildHeader() {
     return Stack(
       children: [
-        buildBackgoundHeader(),
-        Positioned(top: 110, left: 12, child: buildImage()),
+        buildImageBackgoundHeader(),
+        Positioned(top: 110, left: 12, child: buildProfileImage()),
         Positioned(top: 170, left: 150, child: buildUserName()),
         Positioned(top: 50, left: 6, child: BackNavigation(onTap: () => Navigator.pop(context))),
       ],
     );
   }
 
-  Widget buildBackgoundHeader() {
+  Widget buildImageBackgoundHeader() {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -78,7 +80,7 @@ class _UserProfileViewState extends State<UserProfileView> {
     );
   }
 
-  Widget buildImage() {
+  Widget buildProfileImage() {
     return ClipRRect(
       borderRadius: BorderRadius.circular(200),
       child: Container(
@@ -150,9 +152,16 @@ class _UserProfileViewState extends State<UserProfileView> {
       padding: const EdgeInsets.only(top: 20, left: 20),
       child: ElevatedButton(
         onPressed: onLogOut,
-        child: const Text(
-          'Encerrar sessão',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.red),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.logout, color: Colors.red, size: 24),
+            SizedBox(width: 8),
+            const Text(
+              'Sair',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.red),
+            ),
+          ],
         ),
       ),
     );
@@ -163,10 +172,13 @@ class _UserProfileViewState extends State<UserProfileView> {
       context: context,
       title: 'Deseja sair?',
       content: 'Tem certeza que deseja encerrar a sessão atual?',
-      confirmCallback: () {
-        Navigator.popUntil(context, (route) => route.isFirst);
-        context.read<WrapperBloc>().add(LogOut());
-      },
+      confirmCallback: doLogout,
     );
+  }
+
+  void doLogout() {
+    Navigator.popUntil(context, (route) => route.isFirst);
+    context.read<LoginBloc>().add(LogoutButtonPressed());
+    context.read<WrapperBloc>().add(LogOut());
   }
 }

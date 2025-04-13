@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_posts_test/app/bloc/login/login_bloc.dart';
 import 'package:flutter_posts_test/app/bloc/theme/theme_bloc.dart';
 import 'package:flutter_posts_test/app/bloc/theme/theme_state.dart';
 import 'package:flutter_posts_test/app/bloc/wrapper/wrapper_bloc.dart';
@@ -24,7 +25,6 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
-        RepositoryProvider<AuthRepository>(create: (_) => FirebaseAuthRepository()),
         RepositoryProvider<UserRepository>(create: (_) => FirebaseUserRepository()),
         RepositoryProvider<PostRepository>(create: (_) => DioPostRepository()),
         RepositoryProvider<UserOfPostRepository>(create: (_) => DioUserOfPostRepository()),
@@ -32,6 +32,13 @@ class App extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (_) => WrapperBloc()),
+          BlocProvider(
+            create:
+                (_) => LoginBloc(
+                  authRepository: FirebaseAuthRepository(),
+                  userRepository: FirebaseUserRepository(),
+                ),
+          ),
           BlocProvider(create: (_) => ThemeBloc(themeRepository: SharedThemeRepository())),
         ],
         child: BlocBuilder<ThemeBloc, ThemeState>(
