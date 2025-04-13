@@ -115,3 +115,15 @@ flutter test
 - **Repository Pattern**: Para abstração do acesso a dados e pelo isolamento do app contra operações externas
 - **Either**: Para facilidade e clareza no tratamento de erros
 - **State Pattern**: Para clareza e solidez nos estados da aplicação, cada estado possui apenas os dados que precisam
+
+
+## 🖼️ Capturas de Tela 
+
+<img src="https://github.com/user-attachments/assets/0d56ae34-0682-4c1b-9242-091940a5694b" width="250">
+<img src="https://github.com/user-attachments/assets/c56b3c8f-addf-475c-83c9-3478156256a9" width="250">
+<img src="https://github.com/user-attachments/assets/887666bb-32a6-4a60-a20c-30db23f4f757" width="250">
+<img src="https://github.com/user-attachments/assets/9d79d4c8-35a1-4e55-8c76-b32be6d75bfe" width="250">
+<img src="https://github.com/user-attachments/assets/b32535e8-7153-4310-9c18-c96594ce5385" width="250">
+<img src="https://github.com/user-attachments/assets/63b9c7bd-ff4c-4d97-b844-8f46155fdd9a" width="250">
+<img src="https://github.com/user-attachments/assets/21051cab-314c-4ffe-85ca-f0429de36818" width="250">
+<img src="https://github.com/user-attachments/assets/6d301559-4603-4567-8cfa-37dd8f1d255d" width="250">
