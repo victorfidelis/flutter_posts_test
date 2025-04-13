@@ -16,7 +16,7 @@ class PostLoaded extends PostState {
   final int quantityPerPage = 10;
   bool get isLastPage => _posts.length <= (page * quantityPerPage);
   int get quantityPosts => isLastPage ? _posts.length : (page * quantityPerPage);
-  List<Post> get posts => _posts.sublist(0, quantityPosts - 1);
+  List<Post> get posts => _posts.sublist(0, quantityPosts);
 
   // O método nextPage simula o carregamento de uma nova página de posts
   Future<void> nextPage() async {

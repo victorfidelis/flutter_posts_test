@@ -26,7 +26,7 @@ class _PostsViewState extends State<PostsView> {
   @override
   void initState() {
     postBloc = PostBloc(postRepository: context.read<PostRepository>());
-    postBloc.add(PostLoad());
+    postBloc.add(LoadPosts());
     scrollController.addListener(scrollTrigger);
     super.initState();
   }
@@ -116,7 +116,7 @@ class _PostsViewState extends State<PostsView> {
   }
 
   void loadMore() {
-    postBloc.add(PostLoadMore());
+    postBloc.add(LoadMorePosts());
   }
 
   void logout() {

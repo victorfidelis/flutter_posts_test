@@ -6,7 +6,6 @@ import 'package:flutter_posts_test/app/bloc/comment/comment_state.dart';
 import 'package:flutter_posts_test/app/bloc/user_of_post/user_of_post_bloc.dart';
 import 'package:flutter_posts_test/app/bloc/user_of_post/user_of_post_event.dart';
 import 'package:flutter_posts_test/app/bloc/user_of_post/user_of_post_state.dart';
-import 'package:flutter_posts_test/app/model/comment.dart';
 import 'package:flutter_posts_test/app/model/post.dart';
 import 'package:flutter_posts_test/app/repository/post/post_repository.dart';
 import 'package:flutter_posts_test/app/shared/widgets/custom_loading.dart';

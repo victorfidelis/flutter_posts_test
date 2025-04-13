@@ -1,5 +1,5 @@
 sealed class PostEvent {}
 
-class PostLoad extends PostEvent {}
+class LoadPosts extends PostEvent {}
 
-class PostLoadMore extends PostEvent {}
+class LoadMorePosts extends PostEvent {}

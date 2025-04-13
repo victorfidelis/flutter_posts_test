@@ -8,11 +8,11 @@ class PostBloc extends Bloc<PostEvent, PostState> {
   final PostRepository postRepository;
   
   PostBloc({required this.postRepository}) : super(PostInitial()) {
-    on<PostLoad>(_onPostLoad);
-    on<PostLoadMore>(_onPostLoadMore);
+    on<LoadPosts>(_onLoadPosts);
+    on<LoadMorePosts>(_onLoadMorePosts);
   }
 
-  Future<void> _onPostLoad(PostLoad event, Emitter<PostState> emit) async {
+  Future<void> _onLoadPosts(LoadPosts event, Emitter<PostState> emit) async {
     emit(PostLoading());
 
     final postEither = await postRepository.getPosts();
@@ -21,9 +21,9 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     } else {
       emit(PostLoaded(posts: postEither.right!));
     }
-  } 
+  }
   
-  Future<void> _onPostLoadMore(PostLoadMore event, Emitter<PostState> emit) async {
+  Future<void> _onLoadMorePosts(LoadMorePosts event, Emitter<PostState> emit) async {
     final currentState = (state as PostLoaded).copyWith(onLoadMore: true);
     emit(currentState);
     await currentState.nextPage();

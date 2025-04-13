@@ -19,4 +19,18 @@ class Post {
       body: json['body'] as String,
     );
   }
+
+  Post copyWith({
+    int? userId,
+    int? id,
+    String? title,
+    String? body,
+  }) {
+    return Post(
+      userId: userId ?? this.userId,
+      id: id ?? this.id,
+      title: title ?? this.title,
+      body: body ?? this.body,
+    );
+  }
 }
