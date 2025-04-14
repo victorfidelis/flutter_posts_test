@@ -38,6 +38,11 @@ flutter pub get
      ```bash
      flutter run
      ```
+3. **Instalação via APK**
+
+  - Caso prefira instalar o APK em seu dispotivo, baixe-o em:
+    
+        https://github.com/victorfidelis/flutter_posts_test/tree/main/apk
 
 ## 🔑 Credenciais de Teste
 ```
