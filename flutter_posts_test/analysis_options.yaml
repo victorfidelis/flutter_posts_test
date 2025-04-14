@@ -9,7 +9,7 @@
 # packages, and plugins designed to encourage good coding practices.
 analyzer:
   errors:
-    hash_and_equals: ignore ignore
+    hash_and_equals: ignore
 include: package:flutter_lints/flutter.yaml
 
 linter:

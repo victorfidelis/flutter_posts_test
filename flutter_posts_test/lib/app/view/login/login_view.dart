@@ -6,8 +6,6 @@ import 'package:flutter_posts_test/app/bloc/login/login_state.dart';
 import 'package:flutter_posts_test/app/bloc/wrapper/wrapper_bloc.dart';
 import 'package:flutter_posts_test/app/bloc/wrapper/wrapper_event.dart';
 import 'package:flutter_posts_test/app/model/user.dart';
-import 'package:flutter_posts_test/app/repository/auth/auth_repository.dart';
-import 'package:flutter_posts_test/app/repository/user/user_repository.dart';
 import 'package:flutter_posts_test/app/shared/notifications/custom_notifications.dart';
 import 'package:flutter_posts_test/app/shared/widgets/custom_loading.dart';
 import 'package:flutter_posts_test/app/shared/widgets/custom_text_error.dart';
