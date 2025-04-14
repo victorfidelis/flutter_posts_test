@@ -1,0 +1,97 @@
+Flutter Posts Test
+
+Aplicativo móvel desenvolvido em Flutter para apresentação de posts de um API pública e realização de login através do Firebase Auth.
+
+
+Requisitos para execução
+- Git instalado
+- Flutter SDK instalado junto a suas dependências
+- Emulador (ou dispositivo físico) smartphone Android 8.0 ou superior 
+- VSCode
+
+
+Como executar: 
+
+Carregando projeto:
+1. clone o repositório no computador que deseja efetuar o teste com o seguinte comando:   
+     git clone "https://github.com/victorfidelis/flutter_posts_test.git"
+2. Acesse a pasta './flutter_posts_test' do repositório clonado
+3. Execute os seguintes comandos para capturar as dependências: 
+     flutter clean
+     flutter pub get
+
+Executando com emulador
+1. Abra o VSCode 
+2. Inicie o seu emulador
+4. Selecione seu emulador como dispositivo atual no canto inferior direito da tela do VSCode
+5. Execute o comando: flutter run
+6. Aguarde o app ser aberto no emulador
+
+Executando no dispositivo físico
+1. Acesse a pasta './flutter_posts_test' do repositório clonado
+2. Execute o comando flutter build apk 
+3. O arquivo "app-release.apk" será disponibilizado em ".\flutter_posts_test\build\app\outputs\flutter-apk\"
+4. Envie este arquivo para seu dispositivo físico
+5. Em seu dispositivo físico, libere as opções do desenvolvedor (liberação varia de acordo com o dispositivo)
+6. Execute o arquivo "app-release.apk" e faça a sua instalação 
+7. Abra o app instalado
+
+
+Credenciais de login para acesso aos posts: 
+email: testevictor180@gmail.com
+login: 123456
+
+
+Arquitetura do projeto 
+
+O projeto usa o BLoC com o Repository Pattern que se aproxima muito a Layered Architecture (arquitetura em camadas). 
+Ao abrir a pasta lib verá a seguinte estrutura de pastas: 
+app
+|___ app
+    |___ bloc
+    |___ model
+    |___ repository
+    |___ shared
+    |___ view
+
+Neste projeto temos as seguintes camadas bem definidas:
+Model: Para estrutura de dados.
+Repository: Para operações com dados externos.
+View: Para exibição de dados e interação com o usuário.
+Bloc: Para processar regras de negócio e intermédio entre a view a repositor.
+
+A pasta shared guarda recursos compartilhados como Widgets, funções, temas etc.
+
+
+Patterns: 
+
+Repository Pattern: Foi utilizado para encapsular operações com dados externos e proteger a nossa aplicação contra mudanças. Com o repositor pattern junto a injeção de dependência (DI) temos baixo acoplamento entre as camadas e a mudança da origem dos dados pode ser facilmente implementada o projeto apenas criando essas rotinas e assinando o contrato com a interface do repositório. Firestore, arquivo, API e SQLite, o app não sabe como os dados são acessados, isso fica a cargo do repositor. 
+
+Single Responsibility Principle (S do SOLID): Foi utilizado com certa cautela, procurei sempre manter as funções e classe com uma única reposabilidade (um único motivo para ser alterado) o que foi muito úti no entendimento das rotinas e criação de testes.
+
+Injeção de dependências (D do SOLID): Foi muito utilizado para implementação do repository pattern, porém também foi útil na criação de recursos compartilhados como a classe "CustomNotifications", que com o uso DI a possível troca desse recurso por um package fica fácil e não será preciso refatorar a aplicação inteira, apenas assinar o contrado com a interface e injetar a dependência.
+
+Conteito Either: Foi muito utilizado em processo que dependiam de operações externas. Como o either garante sempre 2 situações: Sucesso ou Falha, o tratamento de erro fica claro e o facilita muito o desenvolvimento de testes de unidade. 
+
+State pattern: Foi utilizado para definir de forma clara cada estado da aplicação. Ele é muito útil no quesito clareza e redundância de informações a aplicação sempre terá apenas as informações úteis para o estado atual.
+
+BLoC pattern: Foi utilizado pois é um gerenciador de estado muito robusto, com diversas funcionalidades que facilitam o gerenciamento de estado. Na aplicação o BLoC concentra o gerenciamento de estado e também a lógica de negócio, o que faz com que ele desempenhe um dos papeis mais importantes da aplicação. 
+
+
+Como expandir: 
+
+- Model: Altere ou crie as models;
+- Repository: Crie ou altere as rotinas para operações a dados externos. No caso de criação é muito importante seguir os princípios do DI, criando uma interface e a implementação do código em uma classe herdada. Também é importante que nesta camada cada função faça apenas uma coisa para facilitar o reuso e a legibilidade do código.
+- BLoC: Crie ou altere BLoCs. Caso de criação sempre siga StatePattern para criar os estados e também siga o padrão descrito na documentação do BLoC (https://bloclibrary.dev/).
+- Testes de unidade: Crie/altere os teste de unidade referente ao desenvolvimento e verifique se os mesmo estão funcionando conforme o esperado (pode ser utilizado o TDD também, neste caso o desenvolvimento do BLoC seria feito com base nos testes); 
+- View: Crie/altere a View de acordo com a funcionalidade, observando estado e emitindo eventos para o BLoC.
+   OBS.: Componentes exclusivos de determinada view devem fica em uma pasta widgets dentro da pasta de tela. Componentes compartilhados devem ficar em shared/widgets.
+- Shared: Caso precise criar algum recurso compartilhado adicione esse recurso em shared.
+
+
+
+
+
+
+
+
