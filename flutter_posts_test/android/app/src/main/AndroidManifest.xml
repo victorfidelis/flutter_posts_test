@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="flutter_posts_test"
+        android:label="Flutter Posts Test"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
