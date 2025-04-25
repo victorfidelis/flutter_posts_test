@@ -114,7 +114,7 @@ flutter test
    - Widgets reutilizáveis devem ficam em shared/widgets
 
 ## 📝 Decisões Técnicas
-- **BLoC Pattern**: Escolhido por sua robustez para estados complexos, facilidade de testes dos disparos de eventos e também por ser a tecnologia recomendada.
+- **BLoC Pattern**: Escolhido por sua robustez para estados complexos e facilidade de testes com disparos de eventos.
 - **Firebase Auth**: Simplifica o fluxo de autenticação
 - **Arquitetura em Camadas**: Para separação clara de responsabilidades sem muita complexidade por ser um app simples
 - **Repository Pattern**: Para abstração do acesso a dados e pelo isolamento do app contra operações externas
